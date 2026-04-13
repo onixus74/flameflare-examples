@@ -5,7 +5,7 @@
   "description": "AI code review agent: architecture and design analysis (BAML)",
   "scripts": {
     "generate": "npx baml-cli generate",
-    "build": "bash ../../shared/build-baml.sh"
+    "build": "bash ../../scripts/build-baml.sh"
   },
   "dependencies": {
     "@boundaryml/baml": "^0.85.0"

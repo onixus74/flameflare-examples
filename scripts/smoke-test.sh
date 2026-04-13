@@ -3,11 +3,11 @@
 # Smoke test: deploy all examples and verify they execute correctly.
 #
 # Usage:
-#   examples/smoke-test.sh <base_url> <token>
+#   examples/scripts/smoke-test.sh <base_url> <token>
 #
 # Examples:
-#   examples/smoke-test.sh http://localhost:4000/client/v4 "$LOCAL_TOKEN"
-#   examples/smoke-test.sh https://flameflare.fly.dev/client/v4 "$PROD_TOKEN"
+#   examples/scripts/smoke-test.sh http://localhost:4000/client/v4 "$LOCAL_TOKEN"
+#   examples/scripts/smoke-test.sh https://flameflare.fly.dev/client/v4 "$PROD_TOKEN"
 #
 set -euo pipefail
 
@@ -15,7 +15,8 @@ BASE="${1:?Usage: smoke-test.sh <base_url> <token>}"
 TOKEN="${2:?Usage: smoke-test.sh <base_url> <token>}"
 AUTH="Authorization: Bearer ${TOKEN}"
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
-FF_CLI="${SCRIPT_DIR}/../apps/cli/src/index.ts"
+EXAMPLES_DIR="${SCRIPT_DIR}/.."
+FF_CLI="${EXAMPLES_DIR}/../apps/cli/src/index.ts"
 
 # --- Colors ---
 RED='\033[0;31m'
@@ -46,7 +47,7 @@ DEPLOY_PASS=0
 DEPLOY_FAIL=0
 DEPLOY_FAILURES=""
 
-for dir in "${SCRIPT_DIR}"/*/; do
+for dir in "${EXAMPLES_DIR}"/*/; do
   [ -f "${dir}/flameflare.toml" ] || continue
   name=$(basename "$dir")
 
@@ -72,7 +73,7 @@ for dir in "${SCRIPT_DIR}"/*/; do
 done
 
 # Deploy multi-worker example: order-processing-pipeline
-OPP="${SCRIPT_DIR}/order-processing-pipeline"
+OPP="${EXAMPLES_DIR}/order-processing-pipeline"
 if [ -d "${OPP}/order-api" ]; then
   for worker_dir in "${OPP}"/*/; do
     [ -f "${worker_dir}/flameflare.toml" ] || continue
@@ -105,10 +106,10 @@ if [ -d "${OPP}/order-api" ]; then
 fi
 
 # Deploy multi-agent example: ai-code-review-council (BAML agents)
-COUNCIL="${SCRIPT_DIR}/ai-code-review-council"
+COUNCIL="${EXAMPLES_DIR}/ai-code-review-council"
 if [ -d "${COUNCIL}/review-api" ]; then
   # Source .env for OPENAI_API_KEY
-  source "${SCRIPT_DIR}/../.env" 2>/dev/null || true
+  source "${EXAMPLES_DIR}/../.env" 2>/dev/null || true
 
   # Build + deploy each BAML agent
   for agent in architect-agent security-agent synthesizer-agent; do
@@ -169,9 +170,9 @@ if [ -d "${COUNCIL}/review-api" ]; then
 fi
 
 # Deploy multi-agent example: ai-pitch-evaluator (BAML agents)
-PITCH="${SCRIPT_DIR}/ai-pitch-evaluator"
+PITCH="${EXAMPLES_DIR}/ai-pitch-evaluator"
 if [ -d "${PITCH}/pitch-api" ]; then
-  source "${SCRIPT_DIR}/../.env" 2>/dev/null || true
+  source "${EXAMPLES_DIR}/../.env" 2>/dev/null || true
 
   for agent in market-analyst financial-reviewer tech-assessor verdict-agent; do
     echo -n "  Building ai-pitch-evaluator/${agent}... "
@@ -378,7 +379,7 @@ check_with_retry "security-agent (GET)"     "security-agent"       ""  "security
 check_with_retry "synthesizer-agent (GET)"  "synthesizer-agent"    ""  "synthesizer-agent" 5  3
 
 # POST test only if OPENAI_API_KEY is available (costs money)
-source "${SCRIPT_DIR}/../.env" 2>/dev/null || true
+source "${EXAMPLES_DIR}/../.env" 2>/dev/null || true
 if [ -n "${OPENAI_API_KEY:-}" ]; then
   check "review-api (POST /review)" "review-api" "/review" "success" "POST" '{"code":"function add(a,b) { return a+b; }","language":"javascript"}'
 else
@@ -392,7 +393,7 @@ check_with_retry "financial-reviewer (GET)"  "financial-reviewer"   ""  "financi
 check_with_retry "tech-assessor (GET)"       "tech-assessor"        ""  "tech-assessor"        5  3
 check_with_retry "verdict-agent (GET)"       "verdict-agent"        ""  "verdict-agent"        5  3
 
-source "${SCRIPT_DIR}/../.env" 2>/dev/null || true
+source "${EXAMPLES_DIR}/../.env" 2>/dev/null || true
 if [ -n "${OPENAI_API_KEY:-}" ]; then
   check "pitch-api (POST /evaluate)" "pitch-api" "/evaluate" "success" "POST" '{"pitch":"TinyStartup sells widgets online for $10 each. 100 customers. Bootstrapped."}'
 else
