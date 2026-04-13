@@ -10,3 +10,15 @@ binding = "VERDICT_QUEUE"
 name = "code-review"
 binding = "CODE_REVIEW_WORKFLOW"
 class_name = "CodeReviewWorkflow"
+
+[[services]]
+binding = "ARCHITECT_AGENT"
+service = "architect-agent"
+
+[[services]]
+binding = "SECURITY_AGENT"
+service = "security-agent"
+
+[[services]]
+binding = "SYNTHESIZER_AGENT"
+service = "synthesizer-agent"

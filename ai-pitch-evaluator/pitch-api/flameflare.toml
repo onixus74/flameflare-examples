@@ -10,3 +10,19 @@ binding = "EVALUATION_QUEUE"
 name = "pitch-evaluation"
 binding = "PITCH_EVALUATION_WORKFLOW"
 class_name = "PitchEvaluationWorkflow"
+
+[[services]]
+binding = "MARKET_ANALYST"
+service = "market-analyst"
+
+[[services]]
+binding = "FINANCIAL_REVIEWER"
+service = "financial-reviewer"
+
+[[services]]
+binding = "TECH_ASSESSOR"
+service = "tech-assessor"
+
+[[services]]
+binding = "VERDICT_AGENT"
+service = "verdict-agent"

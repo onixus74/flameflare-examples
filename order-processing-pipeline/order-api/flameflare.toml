@@ -13,3 +13,7 @@ binding = "PAYMENT_QUEUE"
 name = "order-fulfillment"
 binding = "ORDER_WORKFLOW"
 class_name = "OrderFulfillmentWorkflow"
+
+[[services]]
+binding = "CLEANUP_SERVICE"
+service = "cleanup-worker"
