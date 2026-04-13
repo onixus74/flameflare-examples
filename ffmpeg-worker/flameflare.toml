@@ -1,0 +1,21 @@
+name = "ffmpeg-worker"
+main = "src/index.js"
+compatibility_date = "2024-01-01"
+
+# Route to the dedicated FLAME pool for video processing.
+# This gives the worker access to performance CPUs and near-isolation,
+# which ffmpeg needs for encoding/decoding video.
+resource_profile = "dedicated"
+
+# CLI tool binding for ffmpeg operations
+[[bindings]]
+type = "cli_tool"
+name = "CLI_TOOL"
+
+# Environment for development
+[env.development]
+# Can override tool paths or add dev-specific config here
+
+# Environment for production
+[env.production]
+# Production-specific configuration

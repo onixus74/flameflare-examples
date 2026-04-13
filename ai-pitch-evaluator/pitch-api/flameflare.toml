@@ -1,0 +1,12 @@
+name = "pitch-api"
+main = "src/index.js"
+compatibility_date = "2024-01-01"
+
+[[queues.producers]]
+queue = "evaluation-queue"
+binding = "EVALUATION_QUEUE"
+
+[[workflows]]
+name = "pitch-evaluation"
+binding = "PITCH_EVALUATION_WORKFLOW"
+class_name = "PitchEvaluationWorkflow"

@@ -1,0 +1,14 @@
+{
+  "name": "order-api",
+  "version": "1.0.0",
+  "description": "Order API worker \u2014 entry point for the order processing pipeline",
+  "main": "src/index.js",
+  "keywords": [
+    "flameflare",
+    "order-api",
+    "queues",
+    "workflows"
+  ],
+  "author": "FlameFlare Team",
+  "license": "MIT"
+}

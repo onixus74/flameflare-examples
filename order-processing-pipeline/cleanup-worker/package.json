@@ -1,0 +1,14 @@
+{
+  "name": "cleanup-worker",
+  "version": "1.0.0",
+  "description": "Cleanup worker for order pipeline - handles cron and service binding calls",
+  "main": "src/index.js",
+  "keywords": [
+    "flameflare",
+    "cleanup",
+    "cron",
+    "service-binding"
+  ],
+  "author": "FlameFlare Team",
+  "license": "MIT"
+}

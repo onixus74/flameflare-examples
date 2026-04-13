@@ -1,0 +1,8 @@
+name = "workflow-parallel"
+main = "src/index.js"
+compatibility_date = "2024-01-01"
+
+[[workflows]]
+name = "data-pipeline"
+binding = "DATA_PIPELINE"
+class_name = "DataPipelineWorkflow"

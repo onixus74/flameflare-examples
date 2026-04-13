@@ -1,0 +1,8 @@
+name = "env-example"
+main = "src/index.js"
+compatibility_date = "2024-01-01"
+
+[vars]
+APP_NAME = "FlameFlare Demo"
+ENVIRONMENT = "development"
+API_VERSION = "v1"

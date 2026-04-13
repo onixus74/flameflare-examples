@@ -1,0 +1,9 @@
+{
+  "name": "node-hello-world",
+  "version": "1.0.0",
+  "description": "Hello World worker running on Node.js runtime",
+  "type": "module",
+  "scripts": {
+    "deploy": "bun run ../../apps/cli/src/index.ts deploy"
+  }
+}

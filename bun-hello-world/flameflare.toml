@@ -1,0 +1,4 @@
+name = "bun-hello-world"
+main = "src/index.js"
+compatibility_date = "2024-01-01"
+runtime = "bun"

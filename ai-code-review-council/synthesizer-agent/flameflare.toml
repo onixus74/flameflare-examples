@@ -1,0 +1,9 @@
+name = "synthesizer-agent"
+main = "dist/index.mjs"
+compatibility_date = "2024-01-01"
+runtime = "node"
+
+[[queues.consumers]]
+queue = "verdict-queue"
+max_batch_size = 5
+max_retries = 3

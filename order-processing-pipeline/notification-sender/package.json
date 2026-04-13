@@ -1,0 +1,13 @@
+{
+  "name": "notification-sender",
+  "version": "1.0.0",
+  "description": "Notification sending worker for order pipeline",
+  "main": "src/index.js",
+  "keywords": [
+    "flameflare",
+    "notifications",
+    "queue-consumer"
+  ],
+  "author": "FlameFlare Team",
+  "license": "MIT"
+}

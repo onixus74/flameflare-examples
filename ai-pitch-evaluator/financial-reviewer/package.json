@@ -1,0 +1,13 @@
+{
+  "name": "financial-reviewer",
+  "version": "1.0.0",
+  "private": true,
+  "description": "AI financial analyst \u2014 evaluates revenue model, unit economics, and profitability",
+  "scripts": {
+    "generate": "npx baml-cli generate",
+    "build": "bash ../../shared/build-baml.sh"
+  },
+  "dependencies": {
+    "@boundaryml/baml": "^0.85.0"
+  }
+}

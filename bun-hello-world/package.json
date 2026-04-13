@@ -1,0 +1,9 @@
+{
+  "name": "bun-hello-world",
+  "version": "1.0.0",
+  "description": "Hello World worker running on Bun runtime",
+  "type": "module",
+  "scripts": {
+    "deploy": "bun run ../../apps/cli/src/index.ts deploy"
+  }
+}

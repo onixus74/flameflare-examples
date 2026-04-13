@@ -1,0 +1,8 @@
+name = "notification-sender"
+main = "src/index.js"
+compatibility_date = "2024-01-01"
+
+[[queues.consumers]]
+queue = "notification-queue"
+max_batch_size = 10
+max_retries = 3

@@ -1,0 +1,4 @@
+name = "elixir-hello-world"
+main = "src/worker.exs"
+compatibility_date = "2024-01-01"
+runtime = "elixir"

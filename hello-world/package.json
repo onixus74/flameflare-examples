@@ -1,0 +1,9 @@
+{
+  "name": "hello-world",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "deploy": "ff deploy",
+    "dev": "ff deploy"
+  }
+}

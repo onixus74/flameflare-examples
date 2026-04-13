@@ -1,0 +1,5 @@
+{
+  "name": "review-api",
+  "version": "1.0.0",
+  "description": "Code review council coordinator \u2014 orchestrates AI agents via workflow"
+}

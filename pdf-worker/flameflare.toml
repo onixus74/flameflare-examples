@@ -1,0 +1,20 @@
+name = "pdf-worker"
+main = "src/index.js"
+compatibility_date = "2024-01-01"
+
+# PDF extraction and generation are I/O-heavy (reading/writing files,
+# spawning CLI tools) but not CPU-intensive.
+# The standard pool (default) handles this well.
+
+# CLI tool binding for PDF operations
+[[bindings]]
+type = "cli_tool"
+name = "CLI_TOOL"
+
+# Environment for development
+[env.development]
+# Can override tool paths or add dev-specific config here
+
+# Environment for production
+[env.production]
+# Production-specific configuration

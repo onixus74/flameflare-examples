@@ -1,0 +1,12 @@
+name = "payment-processor"
+main = "src/index.js"
+compatibility_date = "2024-01-01"
+
+[[queues.producers]]
+queue = "notification-queue"
+binding = "NOTIFICATION_QUEUE"
+
+[[queues.consumers]]
+queue = "payment-queue"
+max_batch_size = 5
+max_retries = 3

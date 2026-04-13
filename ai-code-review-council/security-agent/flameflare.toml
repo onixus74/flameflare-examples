@@ -1,0 +1,4 @@
+name = "security-agent"
+main = "dist/index.mjs"
+compatibility_date = "2024-01-01"
+runtime = "node"
