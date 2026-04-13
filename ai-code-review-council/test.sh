@@ -1,7 +1,12 @@
 #!/usr/bin/env bash
 #
 # End-to-end test for the AI Code Review Council.
-# Requires OPENAI_API_KEY to be set.
+# Uses the FlameFlare CLI for dispatch.
+#
+# Required environment variables:
+#   FLAMEFLARE_URL        - API base URL
+#   FLAMEFLARE_API_KEY    - API bearer token
+#   OPENAI_API_KEY        - OpenAI API key for AI agent calls
 #
 set -euo pipefail
 
@@ -9,24 +14,15 @@ set -euo pipefail
 : "${FLAMEFLARE_API_KEY:?Set FLAMEFLARE_API_KEY}"
 : "${OPENAI_API_KEY:?Set OPENAI_API_KEY for AI agent calls}"
 
-if [ -z "${FLAMEFLARE_ACCOUNT_ID:-}" ]; then
-  FLAMEFLARE_ACCOUNT_ID=$(curl -sf \
-    -H "Authorization: Bearer ${FLAMEFLARE_API_KEY}" \
-    "${FLAMEFLARE_URL}/accounts" \
-    | jq -r '.result[0].id' 2>/dev/null) || true
-fi
-: "${FLAMEFLARE_ACCOUNT_ID:?Could not detect account ID}"
-
-BASE="${FLAMEFLARE_URL}/accounts/${FLAMEFLARE_ACCOUNT_ID}/workers"
+SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
+FF_CLI="$(cd "${SCRIPT_DIR}/../.." && pwd)/apps/cli/src/index.ts"
+ff() { bun run "${FF_CLI}" "$@"; }
 
 echo "=== AI Code Review Council — End-to-End Test ==="
 echo ""
 
 echo "1. Submitting code for review..."
-RESPONSE=$(curl -s -X POST "${BASE}/review-api/dispatch/review" \
-  -H "Authorization: Bearer ${FLAMEFLARE_API_KEY}" \
-  -H "Content-Type: application/json" \
-  -d '{
+RESPONSE=$(ff dispatch /review -n review-api -X POST -d '{
     "code": "function fetchUser(id) {\n  const query = \"SELECT * FROM users WHERE id = \" + id;\n  return db.query(query);\n}",
     "language": "javascript"
   }')
