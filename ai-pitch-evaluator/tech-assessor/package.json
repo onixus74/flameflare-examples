@@ -5,7 +5,7 @@
   "description": "AI technical assessor \u2014 evaluates feasibility, scalability, and innovation",
   "scripts": {
     "generate": "npx baml-cli generate",
-    "build": "bash ../../scripts/build-baml.sh"
+    "build": "ff baml build"
   },
   "dependencies": {
     "@boundaryml/baml": "^0.85.0"

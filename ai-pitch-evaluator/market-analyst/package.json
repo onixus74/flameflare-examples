@@ -5,7 +5,7 @@
   "description": "AI market research analyst \u2014 evaluates TAM, competition, and market timing",
   "scripts": {
     "generate": "npx baml-cli generate",
-    "build": "bash ../../scripts/build-baml.sh"
+    "build": "ff baml build"
   },
   "dependencies": {
     "@boundaryml/baml": "^0.85.0"

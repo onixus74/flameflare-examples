@@ -5,7 +5,7 @@
   "description": "Example: BAML-powered structured LLM extraction Worker",
   "scripts": {
     "generate": "npx baml-cli generate",
-    "build": "bash scripts/build.sh"
+    "build": "ff baml build"
   },
   "dependencies": {
     "@boundaryml/baml": "^0.85.0"
