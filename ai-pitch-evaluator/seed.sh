@@ -9,37 +9,33 @@
 # Required environment variables:
 #   FLAMEFLARE_URL        - API base URL (e.g. http://localhost:4000/client/v4)
 #   FLAMEFLARE_API_KEY    - API bearer token
-#   OPENAI_API_KEY        - OpenAI API key for the agents
 #
 # Optional:
+#   OPENAI_API_KEY        - OpenAI API key for the agents (secret set only if provided)
 #   FLAMEFLARE_ACCOUNT_ID - Account UUID (auto-detected by CLI if not set)
 #
 set -euo pipefail
 
 : "${FLAMEFLARE_URL:?Set FLAMEFLARE_URL}"
 : "${FLAMEFLARE_API_KEY:?Set FLAMEFLARE_API_KEY}"
-: "${OPENAI_API_KEY:?Set OPENAI_API_KEY}"
 
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
-FF_CLI="$(cd "${SCRIPT_DIR}/../.." && pwd)/apps/cli/src/index.ts"
+FF_CLI="${FF_CLI:-$(cd "${SCRIPT_DIR}/../.." && pwd)/apps/cli/src/index.ts}"
 ff() { bun run "${FF_CLI}" "$@"; }
 
 echo ""
 echo "=== AI Startup Pitch Evaluator — Build & Deploy ==="
 echo ""
 
-# Build + deploy each BAML agent
+# Build + deploy each BAML agent (build runs automatically via [build] in flameflare.toml)
 for agent in market-analyst financial-reviewer tech-assessor verdict-agent; do
-  echo "--- Building ${agent} ---"
-  (cd "${SCRIPT_DIR}/${agent}" && npm install --silent 2>&1 && npm run generate 2>&1 && npm run build 2>&1) || {
-    echo "Error: Build failed for ${agent}" >&2; exit 1
-  }
-
   echo "--- Deploying ${agent} ---"
-  (cd "${SCRIPT_DIR}/${agent}/dist" && ff deploy)
+  (cd "${SCRIPT_DIR}/${agent}" && ff deploy)
 
-  echo "--- Setting OPENAI_API_KEY secret on ${agent} ---"
-  ff secret put OPENAI_API_KEY -n "${agent}" --value "${OPENAI_API_KEY}"
+  if [ -n "${OPENAI_API_KEY:-}" ]; then
+    echo "--- Setting OPENAI_API_KEY secret on ${agent} ---"
+    ff secret put OPENAI_API_KEY -n "${agent}" --value "${OPENAI_API_KEY}"
+  fi
   echo ""
 done
 

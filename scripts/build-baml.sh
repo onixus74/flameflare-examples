@@ -86,27 +86,7 @@ fi
 rm -rf "$ADDON_TMPDIR"
 cd "$PROJECT_DIR"
 
-# --- Generate flameflare.toml for dist/ ---
-# Read additional sections from the source flameflare.toml (queues, workflows, vars, etc.)
-# and include them in the dist version, but fix the main path.
-{
-  echo "name = \"${WORKER_NAME}\""
-  echo "main = \"index.mjs\""
-  echo "compatibility_date = \"2024-01-01\""
-  echo "runtime = \"node\""
-  echo ""
-  # Copy any additional toml sections (queues, workflows, vars) from the source
-  awk '
-    /^\[/ || /^\[\[/ { in_section=1 }
-    /^name[ =]/ && !in_section { next }
-    /^main[ =]/ && !in_section { next }
-    /^compatibility_date[ =]/ && !in_section { next }
-    /^runtime[ =]/ && !in_section { next }
-    in_section { print }
-  ' "$PROJECT_DIR/flameflare.toml"
-} > "$DIST_DIR/flameflare.toml"
-
 echo ""
 echo "Build complete! Output in dist/"
 echo "  Worker: ${WORKER_NAME}"
-echo "  Deploy: cd dist && ff deploy"
+echo "  Deploy: ff deploy"

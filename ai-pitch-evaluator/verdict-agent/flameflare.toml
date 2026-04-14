@@ -3,6 +3,9 @@ main = "dist/index.mjs"
 compatibility_date = "2024-01-01"
 runtime = "node"
 
+[build]
+command = "npm install && npm run generate && npm run build"
+
 [[queues.consumers]]
 queue = "evaluation-queue"
 max_batch_size = 5
