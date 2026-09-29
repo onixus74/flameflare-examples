@@ -82,7 +82,8 @@ async function generateThumbnail(videoData, env) {
   
   // Use ffmpeg to extract thumbnail
   const result = await env.CLI_TOOL.execute('ffmpeg', [
-    '-i', 'stdin',
+    '-f', 'mp4',
+    '-i', 'pipe:0',
     '-ss', timestamp,
     '-vframes', '1',
     '-vf', `scale=${width}:-1`,
@@ -110,7 +111,8 @@ async function extractAudio(videoData, env) {
   
   // Extract audio track
   const result = await env.CLI_TOOL.execute('ffmpeg', [
-    '-i', 'stdin',
+    '-f', 'mp4',
+    '-i', 'pipe:0',
     '-vn',
     '-acodec', 'libmp3lame',
     '-b:a', bitrate,
@@ -142,7 +144,8 @@ async function convertVideo(videoData, targetFormat, env) {
   const codecs = codecMap[targetFormat] || ['-c:v', 'libx264', '-c:a', 'aac'];
   
   const result = await env.CLI_TOOL.execute('ffmpeg', [
-    '-i', 'stdin',
+    '-f', 'mp4',
+    '-i', 'pipe:0',
     ...codecs,
     '-f', targetFormat,
     'pipe:1'

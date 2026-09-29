@@ -84,9 +84,22 @@ export default {
         await env.NOTIFICATION_QUEUE.send(notificationMessage);
         console.log(`Notification queued for order ${orderId}`);
         
-        // TODO: Send workflow event for payment confirmation
-        // This would require a workflow event API that we'll simulate for now
-        console.log(`Payment confirmation event would be sent to workflow ${workflowInstanceId}`);
+        // Send the payment confirmation event the order workflow waits on
+        try {
+          const instance = await env.ORDER_WORKFLOW.get(workflowInstanceId);
+          await instance.sendEvent({
+            type: "payment_confirmed",
+            payload: {
+              orderId,
+              amount,
+              transactionId: `txn_${Date.now()}`,
+              processedAt: new Date().toISOString()
+            }
+          });
+          console.log(`Payment confirmation event sent to workflow ${workflowInstanceId}`);
+        } catch (wfError) {
+          console.error(`Failed to send workflow event: ${wfError.message}`);
+        }
         
         // Mark message as successfully processed
         message.ack();
